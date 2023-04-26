@@ -1,0 +1,58 @@
+{% extends 'index.html' %}
+{% load googlecharts %}
+
+{% block tittle %} Статистика по блюду {{meal.name}} {% endblock %}
+
+{% block content %}
+    <h1 style="color: #7e4977">Статистика по блюду "{{meal.name}}"</h1>
+    {% if stat_values %}
+        <div id="count_graph"></div>
+        {% googlecharts %}
+	        {% data stat_values "count" %}
+                {% col "string" "Дата" %}"{{ val|date:date_format }}"{% endcol %}
+                {% col "number" "Число переходов" %}{{ val }}{% endcol %}
+	        {% enddata %}
+
+	        {% options %}
+		        kind: "LineChart",
+		        options: {
+			        backgroundColor: "#f9f9f9",
+			        colors: ["#e587d9"],
+			        gridlineColor: "#ddd",
+			        legend: "none",
+                    vAxis: {minValue: 0, format: '#', title: "Число переходов", titleTextStyle: { fontSize: 20, color: "#7e4977" }},
+			        chartArea: {left: 60, top: 20, bottom: 50, width: 1340, height: 500},
+                    pointSize: 10,
+			        width: 1400,
+			        height: 600,
+		        }
+	        {% endoptions %}
+
+	        {% graph "count_graph" "count" %}
+        {% endgooglecharts %}
+
+    {% else %}
+        Необходимых данных нет :(
+    {% endif %}
+    <h3 style="color: #e12f5d">Здесь можно выбрать параметры статистического обзора</h3>
+    <form action="{% url 'cafe_app:meal_statistics' meal.id %}">
+        <label>
+            Периодичность фиксации данных:
+            <select name="period">
+                {% for period in period_select %}
+                    <option>{{period}}</option>
+                {% endfor %}
+<!--                <option>Часы</option>-->
+<!--                <option>Дни</option>-->
+<!--                <option>Недели</option>-->
+<!--                <option>Месяцы</option>-->
+            </select>
+        </label><br/><br/>
+        <label>
+            Продолжительность периода:
+            <input type="number" name="num">
+        </label><br/><br/>
+        <button type="submit">Посмотреть</button>
+    </form>
+{% endblock %}
+

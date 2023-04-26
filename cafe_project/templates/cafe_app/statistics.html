@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+
+{% block tittle %} Статистика {% endblock %}
+
+{% block content %}
+    {% if meals %}
+        <h1 style="color: #e12f5d">Топ 3 наших блюда</h1>
+        <table  style="border-style: double; font-size: 20px">
+			<thead style="border-style: double">
+			<tr>
+				<th style="border-right-style: double">Название блюда</th>
+				<th>Количество переходов</th>
+			</tr>
+			</thead>
+			<tbody>
+				{% for meal in meals %}
+                    <tr>
+				        <td style="border-top-style: double; border-right-style: double">{{meal.name}}</td>
+				        <td style="border-top-style: double">{{meal.click_count}}</td>
+			        </tr>
+                {% endfor %}
+			</tbody>
+		</table>
+    {% else %}
+        Недостаточно данных для формирования списка трех лидирующих блюд
+    {% endif %}
+    {% if users %}
+        <h1 style="color: #e12f5d">Топ 10 активных пользователей</h1>
+            <table  style="border-style: double; font-size: 20px">
+			    <thead style="border-style: double">
+			    <tr>
+				    <th style="border-right-style: double">Имя пользователя</th>
+				    <th>Количество переходов</th>
+			    </tr>
+			    </thead>
+			    <tbody>
+				{% for user in users %}
+                    <tr>
+				        <td style="border-top-style: double; border-right-style: double">{{user.username}}</td>
+				        <td style="border-top-style: double">{{user.user_click_count}}</td>
+			        </tr>
+                {% endfor %}
+			    </tbody>
+		    </table>
+    {% else %}
+        Недостаточно данных для формирования списка десяти активных пользователей
+    {% endif %}
+    <h3 style="color: #e12f5d">Здесь можно посмотреть список наиболее активных пользователей в разрезе категорий блюд</h3>
+    <form action="{% url 'cafe_app:category_statistics' %}">
+        <label>
+            Сколько пользователей вывести:
+            <input type="number" name="user_count">
+        </label><br/><br/>
+        <label>
+            Категория блюд:
+            <select name="meal_category">
+                {% for category in meal_categories %}
+                    <option>{{category.0}}</option>
+                {% endfor %}
+            </select>
+        </label><br/><br/>
+        <button type="submit">Посмотреть</button>
+    </form>
+{% endblock %}

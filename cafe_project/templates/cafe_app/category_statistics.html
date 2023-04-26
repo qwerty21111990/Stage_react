@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+
+{% block tittle %} Статистика по категории {{category}} {% endblock %}
+
+{% block content %}
+    {% if users %}
+        <h1 style="color: #e12f5d">Топ {{num}} пользователей в категории "{{category}}"</h1>
+            <table  style="border-style: double; font-size: 20px">
+			    <thead style="border-style: double">
+			    <tr>
+				    <th style="border-right-style: double">Имя пользователя</th>
+				    <th>Количество переходов</th>
+			    </tr>
+			    </thead>
+			    <tbody>
+				{% for user in users %}
+                    <tr>
+				        <td style="border-top-style: double; border-right-style: double">{{user.username}}</td>
+				        <td style="border-top-style: double">{{user.user_click_count}}</td>
+			        </tr>
+                {% endfor %}
+			    </tbody>
+		    </table>
+    {% else %}
+        Недостаточно данных для формирования списка активных пользователей
+    {% endif %}
+{% endblock %}

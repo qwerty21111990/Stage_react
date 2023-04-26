@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+{% block tittle %} Меню {% endblock %}
+
+{% block content %}
+    {% if meal_categories %}
+        <h1 style="color: #811833">Наше меню:</h1>
+        {% for category in meal_categories %}
+            <h2><a href="{% url 'cafe_app:meal_category' category.0 %}">{{category.0}}</a></h2>
+        {% endfor %}
+        <h2><a style="color: #c7254e; text-decoration: none" href="{% url 'cafe_app:statistics' %}">Общая статистика</a></h2>
+    {% else %}
+        Нет даже категорий блюд
+    {% endif %}
+{% endblock %}

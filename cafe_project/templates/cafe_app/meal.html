@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block tittle %} {{meal.name}} {% endblock %}
+
+{% block content %}
+    <h2>Характеристики блюда</h2>
+    {% if meal %}
+        <p><b>Блюдо: </b> {{meal.name}}</p>
+        <p><b>Описание: </b> {{meal.description}}</p>
+        <p><b>Цена: </b> {{meal.price}} BYN</p>
+        <p><b>Размер: </b> {{meal.size}} г.</p>
+    <h2><a style="color: #c7254e; text-decoration: none" href="{% url 'cafe_app:meal_statistics' meal.id %}">Статистика</a></h2>
+    {% else %}
+        Блюдо пустое :(
+    {% endif %}
+{% endblock %}
